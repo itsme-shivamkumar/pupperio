@@ -35,13 +35,15 @@ const finalPrediction = (observations) => {
 }
 
 let ledger = {
-    balance : 99.00,
+    count: 0,
+    balance : 100.00,
     loss : 0.0,
     amnt : 1.0,
-    denominations : parseInt(Math.round(parseFloat(this.balance/100.00))),
+    denominations :1.0,
 }
 
 const getNextAmount = (observations, selectedVal,ledger) => {
+    ledger.count += 1;
     if(selectedVal===observations[0]){
         ledger.balance+= ledger.amnt*1.96;
         console.log("balance became -> ", ledger.balance)
@@ -70,177 +72,39 @@ const getNextAmount = (observations, selectedVal,ledger) => {
     }
 }
 
-const updateObservation = (observations,actualVal) => {
+
+
+const updateObservation = (observations,newVal) => {
     observations.pop();
-    observations.unshift(actualVal);
+    observations.unshift(newVal);
+}
+
+const play = (observations, ledger, predictedVal) => {
+    ledger.count+=1;
+    if(predictedVal == observations[0]){
+        ledger.balance += parseFloat(Math.round(ledger.amnt)*1.92);
+        ledger.loss = 0.00;
+        ledger.amnt = parseFloat(ledger.denominations);
+        
+    }
+    else{
+        ledger.balance -= parseFloat(Math.round(ledger.amnt));
+        ledger.loss += parseFloat(Math.round(ledger.amnt));
+        ledger.amnt = (ledger.count ==  1) ? parseFloat(ledger.denominations * 1.92): parseFloat(ledger.amnt * 1.92);
+    }
 }
 
 
-for(let i=0; i<5;i++){
-    console.log("BALANCE -> ", ledger.balance);
-    let selectedVal = finalPrediction(observations); 
+for(let i=0; i<50;i++){
+    console.log("BALANCE REFRESHED -> ", ledger.balance);
+    console.log("PREVIOUS OBSERVATIONS: ", observations);
+    let predictedVal = finalPrediction(observations); 
     let actualVal = ['B','S'][Math.round(Math.random())];
-    console.log("YOU SELECTED -> ", selectedVal);
-    console.log("CAME -> ", actualVal);
-    console.log((selectedVal == actualVal)?"WON":"LOSE");
+    console.log("YOU SELECTED -> ", predictedVal," ACTUAL -> ", actualVal);
+    console.log(`You put ${Math.round(ledger.amnt)} rupees in the lot.`)
+    console.log((predictedVal == actualVal)? `You won ${Math.round(ledger.amnt)*1.92} rupees` : `You lost ${Math.round(ledger.amnt)} rupees`);
     updateObservation(observations, actualVal);
-    console.log("NEXT AMOUNT -> ", getNextAmount(observations,selectedVal,ledger));    
+    play(observations,ledger,predictedVal);
+    console.log("YOUR BALANCE, BECAME -> ", ledger.balance);
+    console.log()
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// let strategyType="Aggressive"; // or "Safe"
-
-// let observations = ['S','S','S','S','B','S','B','B','B','S'];
-
-// let randomProb=0.25;
-
-// const getProbability = (observations) => { 
-//     /*
-    
-//     1     2    3    4   5    6    7   8     9
-    
-//     1/5 8/45 7/45 2/15 1/9 4/45 1/15 2/45 1/45
-
-//     */
-    
-//     let digitProb = [1/5, 8/45, 7/45, 2/15, 1/9, 4/45, 1/15, 2/45, 1/45];
-    
-//     let alt=0.0; let same=0.0;
-//     for(let i=0;i<9;i++){
-//         if(observations[i]===observations[i+1]){
-//             same+=digitProb[i];
-//         }
-//         else{
-//             alt+=digitProb[i];
-//         }
-//     }
-//     return {same,alt};
-// }
-
-// const getIntuition = (observations) => {
-//     let same =1;
-//     let alt = 1;
-//     for(let i =0; i<observations.length;i++){
-//         if(observations[i]==observations[i+1]){
-//             while(i<observations.length -1 && observations[i]==observations[i+1]){
-//                 same++;
-//                 i++;
-//             }
-//             break;
-//         }
-//         else{
-//             while(i<observations.length-1 && observations[i]!=observations[i+1]){
-//                 alt++;
-//                 i++;
-//             }
-//             break;
-//         }
-//     }
-//     if(same>alt){
-//         return observations[0];
-//     }
-//     else return (observations[0]=='S')?'B':'S';
-// }
-
-
-// prediction = getIntuition(observations);
-// console.log("LOG: TAKE->",prediction)
-// // if(prediction.same>prediction.alt){
-// //     console.log("Take: ",observations[0]);
-// // }
-// // else{
-// //     console.log("Take: ",(observations[0]==='B')?'S':'B');
-// // }
