@@ -10,6 +10,10 @@ let browser;
 let pages;
 let currPage;
 
+// segregate the functions and apis
+let delay = false;
+let timer;
+
 app.use(bodyParser.json())
 
 const initializeBrowser = async()=> {
@@ -38,7 +42,7 @@ app.get("/api/init", async (req, res) => {
   res.send("Browser is initialized!");
 });
 
-app.get("/api/goto", async (req, res) => {
+app.post("/api/goto", async (req, res) => {
   let requestBody = req.body;
   console.log("LOG: RequestBody: ", requestBody);
   try {
@@ -124,6 +128,47 @@ app.post("/api/cheerio-scrape", async (req, res) => {
   }
 });
 
+app.post("/api/click",async(req,res)=>{
+  const {selector} = req.body;
+  try{
+    await currPage.click(selector,{waitUntil:'load'});
+    res.status(200).send({ msg: "Click successful and page loaded" });
+  }
+  catch(e){
+    console.log("ERROR: Couldn't click on selector -> ", e);
+    res.status(500).send("Internal Server Error");
+  }
+})
+
+app.post("/api/type",async(req,res)=>{
+  const {selector, data} = req.body;
+  try{
+    await currPage.type(selector,data);
+    res.send({msg: `Typed "${data}" in the input element with selector "${selector}"`});
+  }
+  catch(e){
+    console.log("ERROR: Unable to write on the selector input -> ", e);
+    res.status(500).send("Internal Server Error");
+  }
+})
+
+// app.post("/api/delay",(req,res)=>{
+//   const {delay} = req.body;
+//   if(typeof(delay)==typeof("string")) delay=parseInt(delay);
+//   if(delay){
+//     clearTimeout(timer);
+//     timer = setTimeout(()=>{
+//       delay = false;
+//     },delay)
+//   }
+//   else{
+//     delay = true;
+//     timer = setTimeout(()=>{
+//       delay = false;
+//     },delay)
+//   }
+// })
+
 app.post("/api/switch-tab", async (req, res) => {
   let { tabIndex } = req.body;
   try {
@@ -141,7 +186,7 @@ app.post("/api/switch-tab", async (req, res) => {
   }
 });
 
-app.post("/api/close-current-tab", async (req, res) => {
+app.delete("/api/close-current-tab", async (req, res) => {
   try {
     await currPage.close();
 
@@ -162,7 +207,7 @@ app.post("/api/close-current-tab", async (req, res) => {
 });
 
 
-app.get("/api/close-browser", async(req,res)=>{
+app.delete("/api/close-browser", async(req,res)=>{
   try{
     await browser.close();
     console.log("LOG: Browser Closed!")
