@@ -6,6 +6,7 @@
             "order":0,
             "type":"status",
             "requestType":"GET",
+            "delayBeforeNextExecution":5000,
             "reqParams":{
 
             },
@@ -17,6 +18,7 @@
             "order":1,
             "type":"init",
             "requestType":"GET",
+            "delayBeforeNextExecution":5000,
             "reqParams":{
 
             },
@@ -28,6 +30,7 @@
             "order":2,
             "type":"goto",
             "requestType":"POST",
+            "delayBeforeNextExecution":5000,
             "reqParams":{
 
             },
@@ -41,6 +44,7 @@
             "order":3,
             "type":"screenshot",
             "requestType":"GET",
+            "delayBeforeNextExecution":5000,
             "reqParams":{
 
             },
@@ -52,6 +56,7 @@
             "order":4,
             "type":"new-tab",
             "requestType":"GET",
+            "delayBeforeNextExecution":5000,
             "reqParams":{
 
             },
@@ -63,6 +68,7 @@
             "order":5,
             "type":"switch-tab",
             "requestType":"POST",
+            "delayBeforeNextExecution":5000,
             "reqParams":{
 
             },
@@ -74,6 +80,7 @@
             "order":6,
             "type":"click",
             "requestType":"POST",
+            "delayBeforeNextExecution":5000,
             "reqParams":{
 
             },
@@ -85,6 +92,7 @@
             "order":7,
             "type":"type",
             "requestType":"POST",
+            "delayBeforeNextExecution":5000,
             "reqParams":{
 
             },
@@ -97,6 +105,7 @@
             "order":8,
             "type":"cheerio-scrape",
             "requestType":"POST",
+            "delayBeforeNextExecution":5000,
             "reqParams":{
 
             },
@@ -109,6 +118,7 @@
             "order":9,
             "type":"close-current-tab",
             "requestType":"DELETE",
+            "delayBeforeNextExecution":5000,
             "reqParams":{
 
             },
@@ -120,6 +130,7 @@
             "order":10,
             "type":"close-browser",
             "requestType":"DELETE",
+            "delayBeforeNextExecution":5000,
             "reqParams":{
 
             },
