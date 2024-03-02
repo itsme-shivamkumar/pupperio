@@ -1,0 +1,132 @@
+{
+    "uid":"anyDemoUID0007",
+    "timeOfInvocation": "Sat Mar 02 2024 12:28:57 GMT+0530",
+    "train":[
+        {
+            "order":0,
+            "type":"status",
+            "requestType":"GET",
+            "reqParams":{
+
+            },
+            "reqBody":{
+
+            }
+        },
+        {
+            "order":1,
+            "type":"init",
+            "requestType":"GET",
+            "reqParams":{
+
+            },
+            "reqBody":{
+
+            }
+        },
+        {
+            "order":2,
+            "type":"goto",
+            "requestType":"POST",
+            "reqParams":{
+
+            },
+            "reqBody":{
+                "timeout": 60000,
+                "link":"https://www.programiz.com/javascript/online-compiler/",
+                "waitForSelector":".desktop-run-button"
+            }
+        },
+        {
+            "order":3,
+            "type":"screenshot",
+            "requestType":"GET",
+            "reqParams":{
+
+            },
+            "reqBody":{
+
+            }
+        },
+        {
+            "order":4,
+            "type":"new-tab",
+            "requestType":"GET",
+            "reqParams":{
+
+            },
+            "reqBody":{
+
+            }
+        },
+        {
+            "order":5,
+            "type":"switch-tab",
+            "requestType":"POST",
+            "reqParams":{
+
+            },
+            "reqBody":{
+                "tabIndex":0
+            }
+        },
+        {
+            "order":6,
+            "type":"click",
+            "requestType":"POST",
+            "reqParams":{
+
+            },
+            "reqBody":{
+                "selector":".desktop-run-button"
+            }
+        },
+        {
+            "order":7,
+            "type":"type",
+            "requestType":"POST",
+            "reqParams":{
+
+            },
+            "reqBody":{
+                "selector":".ace_text-input",
+                "data":"console.log('Hello Shivam!');"
+            }
+        },
+        {
+            "order":8,
+            "type":"cheerio-scrape",
+            "requestType":"POST",
+            "reqParams":{
+
+            },
+            "reqBody":{
+                "selector": "#terminal",
+                "type": "next"
+            }
+        },
+        {
+            "order":9,
+            "type":"close-current-tab",
+            "requestType":"DELETE",
+            "reqParams":{
+
+            },
+            "reqBody":{
+
+            }
+        },
+        {
+            "order":10,
+            "type":"close-browser",
+            "requestType":"DELETE",
+            "reqParams":{
+
+            },
+            "reqBody":{
+
+            }
+        }
+
+    ]
+}
