@@ -1,6 +1,7 @@
 import bodyParser from 'body-parser';
 import express from 'express';
 import {coreBrowserFunctions} from './controllers/coreBrowserFunctions.js'
+import {scriptRunner} from './controllers/scriptRunner.js';
 
 const app = express();
 const port = 3000;
@@ -50,6 +51,10 @@ app.delete("/api/close-current-tab", async (req, res) => {
 
 app.delete("/api/close-browser", async(req,res)=>{
   coreBrowserFunctions.closeBrowser(req,res);
+})
+
+app.post("/api/execute",(req,res)=>{
+  scriptRunner.execute(req,res);
 })
 
 app.listen(port, () => {

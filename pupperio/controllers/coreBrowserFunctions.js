@@ -25,6 +25,8 @@ let currPage;
 
  const getStatus = async(req, res) => {
     try{
+      const body = req.body;
+      console.log(body);
         console.log("LOG: /status api is hit");
         res.send("Server Up and Running!!!");
     }
