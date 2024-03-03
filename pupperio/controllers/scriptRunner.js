@@ -4,6 +4,7 @@ let requestWrapper = {
     params:{},
     body:{}
 };
+
 let responseWrapper = {
     content:[],
     responseStatus:200,
@@ -75,4 +76,5 @@ const getCoreFunction = (cmd)=>{
 const scriptRunner={
     executeScript,
 }
+
 export {scriptRunner};

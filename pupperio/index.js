@@ -56,7 +56,8 @@ app.delete("/api/close-browser", async(req,res)=>{
 })
 
 app.post("/api/execute",(req,res)=>{
-  scriptRunner.executeScript(req,res);
+  if(req.body.uid == "anyDemoUID0007") scriptRunner.executeScript(req,res);
+  else res.status(401).send({"msg":"YOU ARE NOT AUTHERIZED TO ACCESS THIS ENDPOINT, contact: shivkumar386112@gmail.com"})
 })
 
 app.listen(port, () => {

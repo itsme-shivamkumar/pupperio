@@ -44,7 +44,8 @@ let currPage;
     }
     catch(e){
         console.log("ERROR LOG: ",e);
-        res.status(500).send("ERROR: INTERNAL SERVER ERROR");
+        res.status(500);
+        res.send("ERROR: INTERNAL SERVER ERROR");
     }
 };
 
@@ -90,7 +91,8 @@ let currPage;
     res.send({ msg: "Opened new tab and switched to it successfully" });
   } catch (e) {
     console.log("ERROR: Unable to open new tab -> ", e);
-    res.status(500).send("Internal Server Error");
+    res.status(500);
+    res.send("Internal Server Error");
   }
 };
 
@@ -101,7 +103,8 @@ let currPage;
     res.send(screenshot);
   } catch (e) {
     console.log("ERROR: Unable to capture screenshot -> ", e);
-    res.status(500).send("Internal Server Error");
+    res.status(500);
+    res.send("Internal Server Error");
   }
 };
 
@@ -147,7 +150,8 @@ let currPage;
     res.send({ result });
   } catch (e) {
     console.log("ERROR: Unable to perform Cheerio scrape -> ", e);
-    res.status(500).send("Internal Server Error");
+    res.status(500);
+    res.send("Internal Server Error");
   }
 };
 
@@ -216,7 +220,6 @@ let currPage;
     res.send("Internal Server Error");
   }
 };
-
 
  const closeBrowser = async(req,res)=>{
   try{
