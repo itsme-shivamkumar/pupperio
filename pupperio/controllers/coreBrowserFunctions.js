@@ -19,7 +19,8 @@ let currPage;
     res.send("Browser is initialized!");
   } catch (e) {
     console.log("error occurred: ", e);
-    res.status(500).send("ERROR: INTERNAL SERVER ERROR");
+    res.status(500);
+    res.send("ERROR: INTERNAL SERVER ERROR");
   }
 }
 
@@ -38,18 +39,35 @@ let currPage;
 
  const gotoPage = async (req, res) => {
   let requestBody = req.body;
-  console.log("LOG: RequestBody: ", requestBody);
-  try {
-    await currPage.goto(requestBody.link, { waitUntil: 'load', timeout: requestBody.timeout });
-    if(requestBody.waitForSelector != "") await currPage.waitForSelector(requestBody.waitForSelector);
-
-    res.send({"msg":"Successful", "payload":requestBody})
-
-    // ele = await page.evaluate(getDetails, "#terminal");
-  } catch (e) {
-    console.log("ERROR: error occurred -> ", e);
-    res.status(400);
-    res.send({"msg":"BAD REQUEST", "payload":requestBody});
+  while(requestBody.retries>0){
+    try {
+      requestBody.retries-=1;
+      await currPage.goto(requestBody.link, { waitUntil: 'load', timeout: requestBody.timeout });
+      if(requestBody.waitForSelector != "") await currPage.waitForSelector(requestBody.waitForSelector);  
+      res.send({"msg":"Successful", "payload":requestBody})
+      return;
+      } 
+      catch (e) {
+      console.log("ERROR: error occurred -> ", e);
+      if(requestBody.retries<0){
+        res.status(400);
+        res.send({"msg":"BAD REQUEST", "payload":requestBody});
+        return;
+      }
+      else{
+        try{
+          const newPage = await browser.newPage();
+          pages.filter(page=>page!==currPage);
+          pages.push(newPage);
+          await currPage.close();
+          currPage=newPage;
+        }
+        catch(e){
+          console.log("ERROR - > ", e);
+          continue;
+        }
+      }
+    }
   }
 };
 
@@ -126,11 +144,13 @@ let currPage;
   const {selector} = req.body;
   try{
     await currPage.click(selector,{waitUntil:'load'});
-    res.status(200).send({ msg: "Click successful and page loaded" });
+    res.status(200);
+    res.send({ msg: "Click successful and page loaded" });
   }
   catch(e){
     console.log("ERROR: Couldn't click on selector -> ", e);
-    res.status(500).send("Internal Server Error");
+    res.status(500);
+    res.send("Internal Server Error");
   }
 };
 
@@ -142,7 +162,8 @@ let currPage;
   }
   catch(e){
     console.log("ERROR: Unable to write on the selector input -> ", e);
-    res.status(500).send("Internal Server Error");
+    res.status(500)
+    res.send("Internal Server Error");
   }
 };
 
@@ -159,7 +180,8 @@ let currPage;
     }
   } catch (e) {
     console.log("ERROR: Unable to switch tab -> ", e);
-    res.status(500).send("Internal Server Error");
+    res.status(500);
+    res.send("Internal Server Error");
   }
 };
 
@@ -179,7 +201,8 @@ let currPage;
     }
   } catch (e) {
     console.log("ERROR: Unable to close current tab -> ", e);
-    res.status(500).send("Internal Server Error");
+    res.status(500);
+    res.send("Internal Server Error");
   }
 };
 
@@ -192,7 +215,8 @@ let currPage;
   }
   catch(e){
     console.log("ERROR: Unable to close browser -> ", e);
-    res.status(500).send("Internal Server Error");
+    res.status(500);
+    res.send("Internal Server Error");
   }
 };
 

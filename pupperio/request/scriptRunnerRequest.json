@@ -35,7 +35,8 @@
 
             },
             "reqBody":{
-                "timeout": 60000,
+                "timeout": 10000,
+                "retries":3,
                 "link":"https://www.programiz.com/javascript/online-compiler/",
                 "waitForSelector":".desktop-run-button"
             }

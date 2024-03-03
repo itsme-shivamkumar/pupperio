@@ -54,7 +54,7 @@ app.delete("/api/close-browser", async(req,res)=>{
 })
 
 app.post("/api/execute",(req,res)=>{
-  scriptRunner.execute(req,res);
+  scriptRunner.executeScript(req,res);
 })
 
 app.listen(port, () => {
