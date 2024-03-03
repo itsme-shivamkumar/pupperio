@@ -1,5 +1,7 @@
 import puppeteer from "puppeteer";
 import cheerio from "cheerio";
+import dotenv from 'dotenv';
+dotenv.config();
 
 let browser;
 let pages;
@@ -8,10 +10,19 @@ let currPage;
  async function initializeBrowser(req,res){
   try {
     browser = await puppeteer.launch({
-      headless: false,
-      args: ['--start-maximized'],
-      defaultViewport: null
+      headless: true,
+      args: [
+        '--disable-setuid-sandbox',
+        '--no-sandbox',
+        '--single-process',
+        '--no-zygote',    
+    ],
+      defaultViewport: null,
+      executablePath: process.env.NODE_ENV === "production"
+      ? process.env.PUPPETEER_EXECUTABLE_PATH
+      : puppeteer.executablePath()
     });
+    console.log(process.env.PUPPETEER_EXECUTABLE_PATH, process.env.NODE_ENV);
     pages = await browser.pages();
     console.log("LOG: Browser launched");
     currPage = pages[0];

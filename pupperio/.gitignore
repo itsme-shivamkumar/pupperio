@@ -3,3 +3,6 @@
 
 #tokens
 token.txt
+
+#enviorment
+.env
