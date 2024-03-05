@@ -51,27 +51,29 @@ const getCoreFunction = (cmd)=>{
     }
 }
 
- async function executeScript(req,res){
+async function executeScript(req, res) {
     let train = req.body.train;
-    train.sort((a,b)=>a.order - b.order);
-    for(let i =0;i<train.length;i++){
-        let task = train[i];
+    train.sort((a, b) => a.order - b.order);
+
+    for (const task of train) {
         await new Promise((resolve) => {
-            setTimeout(() => {
+            setTimeout(async () => {
                 requestWrapper.body = task['reqBody'];
                 try {
-                    getCoreFunction(task['type'])(requestWrapper, responseWrapper)
-                    console.log("response after order = ", i, " response body is ", responseWrapper.content);
+                    await getCoreFunction(task['type'])(requestWrapper, responseWrapper);
+                    console.log("response after order =", task.order, " response body is ", responseWrapper.content);
                     resolve();
                 } catch (e) {
-                    console.log("COULD NOT PROCEED DUE TO -> ", e, "for index = ", i);
+                    console.log("COULD NOT PROCEED DUE TO -> ", e, "for order =", task.order);
                     resolve();
                 }
             }, task['delayBeforeNextExecution']);
         });
     }
-    res.send({"responses":responseWrapper.content});
+
+    res.send({"responses": responseWrapper.content});
 }
+
 
 const scriptRunner={
     executeScript,

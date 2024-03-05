@@ -10,7 +10,7 @@ let currPage;
  async function initializeBrowser(req,res){
   try {
     browser = await puppeteer.launch({
-      headless: true,
+      headless: false,
       args: [
         '--disable-setuid-sandbox',
         '--no-sandbox',
@@ -26,8 +26,12 @@ let currPage;
     pages = await browser.pages();
     console.log("LOG: Browser launched");
     currPage = pages[0];
+    let newPage = await browser.newPage();
+    pages.push(newPage);
+    currPage = newPage;
     console.log("LOG: curr page is set to first page")
-    res.send("Browser is initialized!");
+    res.send("Browser is initialized and new tab opened!");
+
   } catch (e) {
     console.log("error occurred: ", e);
     res.status(500);
@@ -51,41 +55,21 @@ let currPage;
 
  const gotoPage = async (req, res) => {
   let requestBody = req.body;
-  while(requestBody.retries>0){
     try {
-      requestBody.retries-=1;
       await currPage.goto(requestBody.link, { waitUntil: 'load', timeout: requestBody.timeout });
       if(requestBody.waitForSelector != "") await currPage.waitForSelector(requestBody.waitForSelector);  
       res.send({"msg":"Successful", "payload":requestBody})
-      return;
       } 
       catch (e) {
       console.log("ERROR: error occurred -> ", e);
-      if(requestBody.retries<0){
         res.status(400);
         res.send({"msg":"BAD REQUEST", "payload":requestBody});
-        return;
-      }
-      else{
-        try{
-          const newPage = await browser.newPage();
-          pages.filter(page=>page!==currPage);
-          pages.push(newPage);
-          await currPage.close();
-          currPage=newPage;
-        }
-        catch(e){
-          console.log("ERROR - > ", e);
-          continue;
-        }
-      }
-    }
   }
 };
 
  const openNewTab = async (req, res) => {
   try {
-    const newPage = await browser.newPage();
+    let newPage = await browser.newPage();
     pages.push(newPage);
     currPage = newPage;
     res.send({ msg: "Opened new tab and switched to it successfully" });
@@ -141,6 +125,9 @@ let currPage;
         break;
       case 'prev':
         result = $(selector).prev().html();
+        break;
+      case 'list':
+        result = $(selector).toArray().map(el => $(el).text());
         break;
       default:
         res.status(400).send({ msg: 'Invalid type specified' });
