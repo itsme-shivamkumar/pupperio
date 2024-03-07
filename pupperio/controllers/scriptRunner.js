@@ -20,6 +20,9 @@ let responseWrapper = {
     }
 };
 
+let globalDefinitions = {};
+
+
 const getCoreFunction = (cmd)=>{
     switch(cmd){
         case 'status':
@@ -55,6 +58,8 @@ async function executeScript(req, res) {
     let train = req.body.train;
     train.sort((a, b) => a.order - b.order);
 
+    initiateGlobalParams(req,responseWrapper);
+
     for (const task of train) {
         await new Promise((resolve) => {
             setTimeout(async () => {
@@ -75,8 +80,28 @@ async function executeScript(req, res) {
 }
 
 
+const initiateGlobalDefinitions = (req,res)=>{
+    let params = req.body.globalDefinitions;
+    for(const param of params){
+        try{
+            if(param['type'] == 'param')globalDefinitions[[param["name"]]] = param["defaultValue"];
+            else{
+                console.log("Value is ", param['defaultValue'].join(''))
+                globalDefinitions[[param['name']]] = eval('('+param['defaultValue'].join('')+')');
+            }
+        }
+        catch(e){
+            console.log("ERROR: while parsing global definitions-> ", e);
+        }
+    }
+    console.log(globalDefinitions);
+    res.send({"payload":globalDefinitions});
+}
+
+
 const scriptRunner={
     executeScript,
+    initiateGlobalDefinitions
 }
 
 export {scriptRunner};

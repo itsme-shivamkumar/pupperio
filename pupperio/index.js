@@ -60,6 +60,10 @@ app.post("/api/execute",(req,res)=>{
   else res.status(401).send({"msg":"YOU ARE NOT AUTHERIZED TO ACCESS THIS ENDPOINT, contact: shivkumar386112@gmail.com"})
 })
 
+app.post("/api/init-params",(req,res)=>{
+  scriptRunner.initiateGlobalDefinitions(req,res);
+})
+
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`);
 });

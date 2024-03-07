@@ -1,0 +1,16 @@
+{
+    "uid":"",
+    "params":[
+        {"paramName":"observation",
+         "paramType":"array",
+         "value":["B", "S", "B", "B"],
+         "fetchValueFunctionId":"setObservation"
+        },
+        {"paramName":"balance",
+         "paramType":"float",
+         "value": 100.00,
+         "fetchValueFunctionId":"setBalance"
+        }
+    ],
+    ""
+}

@@ -235,4 +235,5 @@ const coreBrowserFunctions = {
     closeBrowser
 }
 
+
 export {coreBrowserFunctions};

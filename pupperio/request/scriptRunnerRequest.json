@@ -1,6 +1,17 @@
 {
     "uid":"",
+    "scriptName":"Login-By-Shivam",
     "timeOfInvocation": "Sat Mar 02 2024 12:28:57 GMT+0530",
+    "globalDefinitions":[
+        {"name":"observation",
+            "type":"param",
+            "defautlValue":null
+        },
+        {"name":"balance",
+            "type":"param",
+            "defautlValue":null
+        }
+    ],
     "train":[
         {
             "order":0,
@@ -138,7 +149,55 @@
             "reqBody":{
 
             }
-        }
+        },
+        {
+            "order":11,
+            "type":"loop-until",
+            "requestType":"POST",
+            "delayBeforeNextExecution":5000,
+            "reqParams":{
 
+            },
+            "reqBody":{
+                "metro":[
+                    {
+                        "order":0,
+                        "type":"status",
+                        "requestType":"GET",
+                        "delayBeforeNextExecution":5000,
+                        "reqParams":{
+            
+                        },
+                        "reqBody":{
+            
+                        }
+                    },
+                    {
+                        "order":1,
+                        "type":"init",
+                        "requestType":"GET",
+                        "delayBeforeNextExecution":5000,
+                        "reqParams":{
+            
+                        },
+                        "reqBody":{
+            
+                        }
+                    },
+                    {
+                        "order":2,
+                        "type":"close-browser",
+                        "requestType":"DELETE",
+                        "delayBeforeNextExecution":5000,
+                        "reqParams":{
+            
+                        },
+                        "reqBody":{
+            
+                        }
+                    }                
+                ]
+            }
+        }
     ]
 }
