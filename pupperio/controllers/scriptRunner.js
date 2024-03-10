@@ -2,30 +2,30 @@ import { coreBrowserFunctions } from "./coreBrowserFunctions.js";
 
 class RequestWrapper {
     constructor() {
-      this.params = {};
-      this.body = {};
+        this.params = {};
+        this.body = {};
     }
-  }
+}
   
-  class ResponseWrapper {
-    constructor() {
-      this.content = [];
-      this.responseStatus = 200;
-      this.type = 'json';
-    }
-  
-    contentType(obj) {
-      this.type = obj;
-    }
-  
-    send(obj) {
-      this.content.push(obj);
-    }
-  
-    status(obj) {
-      this.responseStatus = obj;
-    }
-  }
+class ResponseWrapper {
+constructor() {
+    this.content = [];
+    this.responseStatus = 200;
+    this.type = 'json';
+}
+
+contentType(obj) {
+    this.type = obj;
+}
+
+send(obj) {
+    this.content.push(obj);
+}
+
+status(obj) {
+    this.responseStatus = obj;
+}
+}
 
 let globalDefinitions = {
     "prev":null,
@@ -65,6 +65,8 @@ const getCoreFunction = (cmd)=>{
             return initiateGlobalDefinitions;
         case 'fetch-param':
             return fetchParam;
+        case 'loop':
+            return loopExecuter;
         default:
             return function(req,res){
                 res.send("NO VALID CORE BROWSER FUNCTION AVAILABLE");

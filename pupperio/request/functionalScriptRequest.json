@@ -1,16 +1,403 @@
 {
-    "uid":"",
-    "params":[
-        {"paramName":"observation",
-         "paramType":"array",
-         "value":["B", "S", "B", "B"],
-         "fetchValueFunctionId":"setObservation"
+    "uid": "anyDemoUID0007",
+    "timeOfInvocation": "Sat Mar 02 2024 12:28:57 GMT+0530",
+    "globalDefinitions": [
+        {
+            "name": "setBalance",
+            "type": "function",
+            "defaultValue": [
+                "function(){",
+                "   globalDefinitions.balance = parseFloat(globalDefinitions.prev.substring(1));",
+                "}"
+            ]
         },
-        {"paramName":"balance",
-         "paramType":"float",
-         "value": 100.00,
-         "fetchValueFunctionId":"setBalance"
+        {
+            "name": "balance",
+            "type": "param",
+            "defaultValue": 100.00
+        },
+        {
+            "name": "balanceGreaterThan100",
+            "type": "function",
+            "defaultValue": [
+                "function(){",
+                "   return parseFloat(globalDefinitions.balance) < 100.00 ;",
+                "}"
+            ]
+        },
+        {
+            "name": "lossLessThan100",
+            "type": "function",
+            "defaultValue": [
+                "function(){",
+                "   return true;",
+                "}"
+            ]
         }
     ],
-    ""
+    "train": [
+        {
+            "order": 0,
+            "type": "status",
+            "requestType": "GET",
+            "delayBeforeNextExecution": 2000,
+            "reqParams": {},
+            "reqBody": {}
+        },
+        {
+            "order": 1,
+            "type": "init-params",
+            "requestType": "POST",
+            "delayBeforeNextExecution": 2000,
+            "reqParams": {},
+            "reqBody": {
+                "globalDefinitions": []
+            }
+        },
+        {
+            "order": 2,
+            "type": "fetch-param",
+            "requestType": "POST",
+            "delayBeforeNextExecution": 2000,
+            "reqParams": {},
+            "reqBody": {
+                "name": "balance",
+                "train": [
+                    {
+                        "order": 1,
+                        "type": "init",
+                        "requestType": "GET",
+                        "delayBeforeNextExecution": 2000,
+                        "reqParams": {},
+                        "reqBody": {}
+                    },
+                    {
+                        "order": 2,
+                        "type": "new-tab",
+                        "requestType": "GET",
+                        "delayBeforeNextExecution": 2000,
+                        "reqParams": {},
+                        "reqBody": {}
+                    },
+                    {
+                        "order": 3,
+                        "type": "goto",
+                        "requestType": "POST",
+                        "delayBeforeNextExecution": 2000,
+                        "reqParams": {},
+                        "reqBody": {
+                            "timeout": 60000,
+                            "link": "https://9987up.club/#/",
+                            "retries": 3,
+                            "waitForSelector": ".lottery_bg"
+                        }
+                    },
+                    {
+                        "order": 4,
+                        "type": "click",
+                        "requestType": "POST",
+                        "delayBeforeNextExecution": 2000,
+                        "reqParams": {},
+                        "reqBody": {
+                            "selector": "#app > div.content_home > div.home_container > div.lottery_container > div:nth-child(7) > div.lottery > img.lottery_bg"
+                        }
+                    },
+                    {
+                        "order": 5,
+                        "type": "click",
+                        "requestType": "POST",
+                        "delayBeforeNextExecution": 2000,
+                        "reqParams": {},
+                        "reqBody": {
+                            "selector": "#app > div.login__container > div.navbar > div > div > div.navbar__content-right > div > div"
+                        }
+                    },
+                    {
+                        "order": 6,
+                        "type": "click",
+                        "requestType": "POST",
+                        "delayBeforeNextExecution": 2000,
+                        "reqParams": {},
+                        "reqBody": {
+                            "selector": "body > div.van-popup.van-popup--bottom.popup > div > div:nth-child(1)"
+                        }
+                    },
+                    {
+                        "order": 7,
+                        "type": "type",
+                        "requestType": "POST",
+                        "delayBeforeNextExecution": 2000,
+                        "reqParams": {},
+                        "reqBody": {
+                            "selector": "#app > div.login__container > div.login__container-form > div.tab-content.activecontent > div > div.phoneInput__container > div.phoneInput__container-input > input[type=text]",
+                            "data": "8619975293"
+                        }
+                    },
+                    {
+                        "order": 8,
+                        "type": "type",
+                        "requestType": "POST",
+                        "delayBeforeNextExecution": 2000,
+                        "reqParams": {},
+                        "reqBody": {
+                            "selector": "#app > div.login__container > div.login__container-form > div.tab-content.activecontent > div > div.passwordInput__container > div.passwordInput__container-input > input[type=password]",
+                            "data": "madharchod6969"
+                        }
+                    },
+                    {
+                        "order": 9,
+                        "type": "click",
+                        "requestType": "POST",
+                        "delayBeforeNextExecution": 2000,
+                        "reqParams": {},
+                        "reqBody": {
+                            "selector": "#app > div.login__container > div.login__container-form > div.tab-content.activecontent > div > div:nth-child(3) > div > span"
+                        }
+                    },
+                    {
+                        "order": 10,
+                        "type": "click",
+                        "requestType": "POST",
+                        "delayBeforeNextExecution": 2000,
+                        "reqParams": {},
+                        "reqBody": {
+                            "selector": "#app > div.login__container > div.login__container-form > div.tab-content.activecontent > div > div.signIn__container-button > button:nth-child(1)"
+                        }
+                    },
+                    {
+                        "order": 11,
+                        "type": "click",
+                        "requestType": "POST",
+                        "delayBeforeNextExecution": 2000,
+                        "reqParams": {},
+                        "reqBody": {
+                            "selector": "#app > div.content_home > div.van-popup.van-popup--center.van-dialog > div.van-hairline--top.van-dialog__footer > button > div > span"
+                        }
+                    },
+                    {
+                        "order": 12,
+                        "type": "click",
+                        "requestType": "POST",
+                        "delayBeforeNextExecution": 2000,
+                        "reqParams": {},
+                        "reqBody": {
+                            "selector": "#app > div.content_home > div.home_container > div.lottery_container > div:nth-child(7) > div.lottery > img.lottery_bg"
+                        }
+                    },
+                    {
+                        "order": 13,
+                        "type": "cheerio-scrape",
+                        "requestType": "POST",
+                        "delayBeforeNextExecution": 2000,
+                        "reqParams": {},
+                        "reqBody": {
+                            "selector": "#app > div.WinTrx__C > div.Wallet__C > div > div.Wallet__C-balance-l1 > div",
+                            "type": "text"
+                        }
+                    },
+                    {
+                        "order": 14,
+                        "type": "invoke-fun",
+                        "requestType": "POST",
+                        "delayBeforeNextExecution": 2000,
+                        "reqParams": {},
+                        "reqBody": {
+                            "name": "setBalance",
+                            "params": []
+                        }
+                    },
+                    {
+                        "order": 15,
+                        "type": "close-browser",
+                        "requestType": "DELETE",
+                        "delayBeforeNextExecution": 2000,
+                        "reqParams": {},
+                        "reqBody": {}
+                    }
+                ]
+            }
+        },
+        {
+            "order": 3,
+            "type": "loop",
+            "requestType": "POST",
+            "delayBeforeNextExecution": 2000,
+            "reqParams": {},
+            "reqBody": {
+                "stoppingCondition": "balanceGreaterThan100",
+                "train": [
+                    {
+                        "order": 1,
+                        "type": "init",
+                        "requestType": "GET",
+                        "delayBeforeNextExecution": 2000,
+                        "reqParams": {},
+                        "reqBody": {}
+                    },
+                    {
+                        "order": 2,
+                        "type": "new-tab",
+                        "requestType": "GET",
+                        "delayBeforeNextExecution": 2000,
+                        "reqParams": {},
+                        "reqBody": {}
+                    },
+                    {
+                        "order": 3,
+                        "type": "goto",
+                        "requestType": "POST",
+                        "delayBeforeNextExecution": 2000,
+                        "reqParams": {},
+                        "reqBody": {
+                            "timeout": 60000,
+                            "link": "https://9987up.club/#/",
+                            "retries": 3,
+                            "waitForSelector": ".lottery_bg"
+                        }
+                    },
+                    {
+                        "order": 4,
+                        "type": "click",
+                        "requestType": "POST",
+                        "delayBeforeNextExecution": 2000,
+                        "reqParams": {},
+                        "reqBody": {
+                            "selector": "#app > div.content_home > div.home_container > div.lottery_container > div:nth-child(7) > div.lottery > img.lottery_bg"
+                        }
+                    },
+                    {
+                        "order": 5,
+                        "type": "click",
+                        "requestType": "POST",
+                        "delayBeforeNextExecution": 2000,
+                        "reqParams": {},
+                        "reqBody": {
+                            "selector": "#app > div.login__container > div.navbar > div > div > div.navbar__content-right > div > div"
+                        }
+                    },
+                    {
+                        "order": 6,
+                        "type": "click",
+                        "requestType": "POST",
+                        "delayBeforeNextExecution": 2000,
+                        "reqParams": {},
+                        "reqBody": {
+                            "selector": "body > div.van-popup.van-popup--bottom.popup > div > div:nth-child(1)"
+                        }
+                    },
+                    {
+                        "order": 7,
+                        "type": "type",
+                        "requestType": "POST",
+                        "delayBeforeNextExecution": 2000,
+                        "reqParams": {},
+                        "reqBody": {
+                            "selector": "#app > div.login__container > div.login__container-form > div.tab-content.activecontent > div > div.phoneInput__container > div.phoneInput__container-input > input[type=text]",
+                            "data": "8619975293"
+                        }
+                    },
+                    {
+                        "order": 8,
+                        "type": "type",
+                        "requestType": "POST",
+                        "delayBeforeNextExecution": 2000,
+                        "reqParams": {},
+                        "reqBody": {
+                            "selector": "#app > div.login__container > div.login__container-form > div.tab-content.activecontent > div > div.passwordInput__container > div.passwordInput__container-input > input[type=password]",
+                            "data": "madharchod6969"
+                        }
+                    },
+                    {
+                        "order": 9,
+                        "type": "click",
+                        "requestType": "POST",
+                        "delayBeforeNextExecution": 2000,
+                        "reqParams": {},
+                        "reqBody": {
+                            "selector": "#app > div.login__container > div.login__container-form > div.tab-content.activecontent > div > div:nth-child(3) > div > span"
+                        }
+                    },
+                    {
+                        "order": 10,
+                        "type": "click",
+                        "requestType": "POST",
+                        "delayBeforeNextExecution": 2000,
+                        "reqParams": {},
+                        "reqBody": {
+                            "selector": "#app > div.login__container > div.login__container-form > div.tab-content.activecontent > div > div.signIn__container-button > button:nth-child(1)"
+                        }
+                    },
+                    {
+                        "order": 11,
+                        "type": "click",
+                        "requestType": "POST",
+                        "delayBeforeNextExecution": 2000,
+                        "reqParams": {},
+                        "reqBody": {
+                            "selector": "#app > div.content_home > div.van-popup.van-popup--center.van-dialog > div.van-hairline--top.van-dialog__footer > button > div > span"
+                        }
+                    },
+                    {
+                        "order": 12,
+                        "type": "click",
+                        "requestType": "POST",
+                        "delayBeforeNextExecution": 2000,
+                        "reqParams": {},
+                        "reqBody": {
+                            "selector": "#app > div.content_home > div.home_container > div.lottery_container > div:nth-child(7) > div.lottery > img.lottery_bg"
+                        }
+                    },
+                    {
+                        "order": 13,
+                        "type": "loop",
+                        "requestType": "POST",
+                        "delayBeforeNextExecution": 2000,
+                        "reqParams": {},
+                        "reqBody": {
+                            "stoppingCondition": "lossLessThan100",
+                            "train": [
+                                {
+                                    "order": 0,
+                                    "type": "new-tab",
+                                    "requestType": "GET",
+                                    "delayBeforeNextExecution": 2000,
+                                    "reqParams": {},
+                                    "reqBody": {}
+                                },
+                                {
+                                    "order": 1,
+                                    "type": "goto",
+                                    "requestType": "POST",
+                                    "delayBeforeNextExecution": 2000,
+                                    "reqParams": {},
+                                    "reqBody": {
+                                        "timeout": 60000,
+                                        "link": "https://9987up.club/#/",
+                                        "retries": 3,
+                                        "waitForSelector": ".lottery_bg"
+                                    }
+                                },
+                                {
+                                    "order": 2,
+                                    "type": "close-browser",
+                                    "requestType": "DELETE",
+                                    "delayBeforeNextExecution": 2000,
+                                    "reqParams": {},
+                                    "reqBody": {}
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "order": 14,
+                        "type": "close-browser",
+                        "requestType": "DELETE",
+                        "delayBeforeNextExecution": 2000,
+                        "reqParams": {},
+                        "reqBody": {}
+                    }
+                ]
+            }
+        }
+    ]
 }
