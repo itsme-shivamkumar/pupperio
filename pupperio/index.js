@@ -64,6 +64,18 @@ app.post("/api/init-params",(req,res)=>{
   scriptRunner.initiateGlobalDefinitions(req,res);
 })
 
+app.post("/api/invoke-fun",(req,res)=>{
+  scriptRunner.invokeFun(req,res);
+})
+
+app.post("/api/fetch-param",(req,res)=>{
+  scriptRunner.fetchParam(req,res);
+})
+
+app.post("/api/loop",(req,res)=>{
+  scriptRunner.loopExecuter(req,res);
+})
+
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`);
 });

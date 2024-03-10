@@ -1,26 +1,38 @@
 import { coreBrowserFunctions } from "./coreBrowserFunctions.js";
 
-let requestWrapper = {
-    params:{},
-    body:{}
-};
-
-let responseWrapper = {
-    content:[],
-    responseStatus:200,
-    type:'json',
-    contentType:function(obj){
-        this.type = obj;
-    },
-    send: function(obj){
-        this.content.push(obj);
-    },
-    status: function(obj){
-        this.responseStatus = obj;
+class RequestWrapper {
+    constructor() {
+      this.params = {};
+      this.body = {};
     }
+  }
+  
+  class ResponseWrapper {
+    constructor() {
+      this.content = [];
+      this.responseStatus = 200;
+      this.type = 'json';
+    }
+  
+    contentType(obj) {
+      this.type = obj;
+    }
+  
+    send(obj) {
+      this.content.push(obj);
+    }
+  
+    status(obj) {
+      this.responseStatus = obj;
+    }
+  }
+
+let globalDefinitions = {
+    "prev":null,
 };
 
-let globalDefinitions = {};
+const createRequestWrapper = () => new RequestWrapper();
+const createResponseWrapper = () => new ResponseWrapper();
 
 
 const getCoreFunction = (cmd)=>{
@@ -47,6 +59,12 @@ const getCoreFunction = (cmd)=>{
             return coreBrowserFunctions.closeCurrentTab;
         case 'close-browser':
             return coreBrowserFunctions.closeBrowser;
+        case 'invoke-fun':
+            return invokeFun;
+        case 'init-params':
+            return initiateGlobalDefinitions;
+        case 'fetch-param':
+            return fetchParam;
         default:
             return function(req,res){
                 res.send("NO VALID CORE BROWSER FUNCTION AVAILABLE");
@@ -54,19 +72,41 @@ const getCoreFunction = (cmd)=>{
     }
 }
 
+const initiateGlobalDefinitions = (req,res)=>{
+    let params = req.body.globalDefinitions;
+    for(const param of params){
+        try{
+            if(param['type'] == 'param')globalDefinitions[[param["name"]]] = param["defaultValue"];
+            else{
+                globalDefinitions[[param['name']]] = eval('('+param['defaultValue'].join('')+')');
+            }
+        }
+        catch(e){
+            console.log("ERROR: while parsing global definitions-> ", e);
+        }
+    }
+    res.send({"globalDefinitionsSetSuccessfully":globalDefinitions});
+}
+
 async function executeScript(req, res) {
+    const requestWrapper = createRequestWrapper();
+    const responseWrapper = createResponseWrapper();
     let train = req.body.train;
     train.sort((a, b) => a.order - b.order);
 
-    initiateGlobalParams(req,responseWrapper);
+    if(req.body.hasOwnProperty("globalDefinitions"))
+        initiateGlobalDefinitions(req,responseWrapper);
 
     for (const task of train) {
         await new Promise((resolve) => {
             setTimeout(async () => {
                 requestWrapper.body = task['reqBody'];
+                
                 try {
                     await getCoreFunction(task['type'])(requestWrapper, responseWrapper);
-                    console.log("response after order =", task.order, " response body is ", responseWrapper.content);
+                    // console.log("response after order =", task.order, " response body is ", responseWrapper.content);
+                    globalDefinitions.prev = responseWrapper.content[responseWrapper.content.length -1];
+                    console.log(`After order = ${task.order}, prev = ${globalDefinitions.prev}, globalDefs.balance = ${globalDefinitions.count}`);
                     resolve();
                 } catch (e) {
                     console.log("COULD NOT PROCEED DUE TO -> ", e, "for order =", task.order);
@@ -79,29 +119,70 @@ async function executeScript(req, res) {
     res.send({"responses": responseWrapper.content});
 }
 
-
-const initiateGlobalDefinitions = (req,res)=>{
-    let params = req.body.globalDefinitions;
-    for(const param of params){
-        try{
-            if(param['type'] == 'param')globalDefinitions[[param["name"]]] = param["defaultValue"];
-            else{
-                console.log("Value is ", param['defaultValue'].join(''))
-                globalDefinitions[[param['name']]] = eval('('+param['defaultValue'].join('')+')');
-            }
-        }
-        catch(e){
-            console.log("ERROR: while parsing global definitions-> ", e);
-        }
+const invokeFun = (req, res) => {
+    if(globalDefinitions.hasOwnProperty(req.body.name)){
+        let funName = req.body.name;
+        let params = req.body.params;
+        params.map((item)=>{
+            if(globalDefinitions.hasOwnProperty(item)) return globalDefinitions.item;
+            else return item;
+        });
+        globalDefinitions.prev = globalDefinitions[funName].call(null,...params);
+        console.log("GlobalDef count = ", globalDefinitions.count);
+        res.status(200);
+        res.send({"msg":`Function: ${funName} is successfully executed with params ${params.join(' ')} and has returned ${globalDefinitions.prev}`})
     }
-    console.log(globalDefinitions);
-    res.send({"payload":globalDefinitions});
+    else{
+        res.status(404);
+        res.send({"msg":"NO FUNCTION IS FOUND WITH THIS NAME", "code":"NOT FOUND: 404"})
+    }
+}
+
+const fetchParam = async(req, res) => {
+    const requestWrapper = createRequestWrapper();
+    const responseWrapper = createResponseWrapper();
+    requestWrapper.body = req.body;
+    if(globalDefinitions.hasOwnProperty(requestWrapper.body.name)){
+        await executeScript(requestWrapper,responseWrapper);
+        res.send({"fetchParamSucceeded->": responseWrapper});
+    }
+    else{
+        res.status(404);
+        res.send({"msg":"NO PARAM IS FOUND WITH THIS NAME", "code":"NOT FOUND: 404"})
+    }
+}
+
+const loopExecuter = async (req,res) =>{
+    const requestWrapper = createRequestWrapper();
+    const responseWrapper = createResponseWrapper();
+    if(req.body.stoppingCondition 
+        && globalDefinitions.hasOwnProperty(req.body.stoppingCondition)){
+            let stoppingCondition = globalDefinitions[req.body.stoppingCondition];
+            const requestWrapper = createRequestWrapper();
+            const responseWrapper = createResponseWrapper();
+            while(!stoppingCondition()){
+                requestWrapper.body = req.body;
+                try{
+                    await executeScript(requestWrapper,responseWrapper);
+                }
+                catch(e){
+                    console.log("CANT RUN -> ",e);
+                }
+            }
+            res.send({"loop-execution succeeded": responseWrapper});
+    }
+    else{
+        res.send({"msg":"Cannot execute loop"});
+    }
 }
 
 
 const scriptRunner={
     executeScript,
-    initiateGlobalDefinitions
+    initiateGlobalDefinitions,
+    invokeFun,
+    fetchParam,
+    loopExecuter
 }
 
 export {scriptRunner};

@@ -22,14 +22,9 @@ let currPage;
       ? process.env.PUPPETEER_EXECUTABLE_PATH
       : puppeteer.executablePath()
     });
-    console.log(process.env.PUPPETEER_EXECUTABLE_PATH, process.env.NODE_ENV);
     pages = await browser.pages();
     console.log("LOG: Browser launched");
     currPage = pages[0];
-    let newPage = await browser.newPage();
-    pages.push(newPage);
-    currPage = newPage;
-    console.log("LOG: curr page is set to first page")
     res.send("Browser is initialized and new tab opened!");
 
   } catch (e) {
@@ -134,7 +129,7 @@ let currPage;
         return;
     }
 
-    res.send({ result });
+    res.send(result);
   } catch (e) {
     console.log("ERROR: Unable to perform Cheerio scrape -> ", e);
     res.status(500);
@@ -160,7 +155,7 @@ let currPage;
   const {selector, data} = req.body;
   try{
     await currPage.type(selector,data);
-    res.send({msg: `Typed "${data}" in the input element with selector "${selector}"`});
+    res.send(data);
   }
   catch(e){
     console.log("ERROR: Unable to write on the selector input -> ", e);
