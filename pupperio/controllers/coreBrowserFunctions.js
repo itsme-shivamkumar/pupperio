@@ -10,7 +10,7 @@ let currPage;
  async function initializeBrowser(req,res){
   try {
     browser = await puppeteer.launch({
-      headless: true,
+      headless: false,
       args: [
         '--disable-setuid-sandbox',
         '--no-sandbox',
