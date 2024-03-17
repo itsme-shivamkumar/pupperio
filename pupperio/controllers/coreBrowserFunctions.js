@@ -125,7 +125,8 @@ let currPage;
         result = $(selector).toArray().map(el => $(el).text());
         break;
       default:
-        res.status(400).send({ msg: 'Invalid type specified' });
+        res.status(400);
+        res.send({ msg: 'Invalid type specified' });
         return;
     }
 
@@ -140,7 +141,10 @@ let currPage;
  const clickOnElement = async(req,res)=>{
   const {selector} = req.body;
   try{
-    await currPage.click(selector,{waitUntil:'load'});
+    if(selector.includes("globalDefinitions")){
+      await currPage.click(req.params[selector.replace("globalDefinitions.","")],{waitUntil:'load'});
+    }
+    else await currPage.click(selector,{waitUntil: 'load'});
     res.status(200);
     res.send({ msg: "Click successful and page loaded" });
   }
@@ -154,7 +158,10 @@ let currPage;
  const typeInInput = async(req,res)=>{
   const {selector, data} = req.body;
   try{
-    await currPage.type(selector,data);
+    if(data.includes("globalDefinitions")){
+      await currPage.type(selector,req.params[data.replace("globalDefinitions.","")])
+    }
+    else await currPage.type(selector,data);
     res.send(data);
   }
   catch(e){

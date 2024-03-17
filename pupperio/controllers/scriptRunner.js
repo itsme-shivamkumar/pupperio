@@ -8,23 +8,23 @@ class RequestWrapper {
 }
   
 class ResponseWrapper {
-constructor() {
-    this.content = [];
-    this.responseStatus = 200;
-    this.type = 'json';
-}
+    constructor() {
+        this.content = [];
+        this.responseStatus = 200;
+        this.type = 'json';
+    }
 
-contentType(obj) {
-    this.type = obj;
-}
+    contentType(obj) {
+        this.type = obj;
+    }
 
-send(obj) {
-    this.content.push(obj);
-}
+    send(obj) {
+        this.content.push(obj);
+    }
 
-status(obj) {
-    this.responseStatus = obj;
-}
+    status(obj) {
+        this.responseStatus = obj;
+    }
 }
 
 let globalDefinitions = {
@@ -81,6 +81,7 @@ const initiateGlobalDefinitions = (req,res)=>{
             if(param['type'] == 'param')globalDefinitions[[param["name"]]] = param["defaultValue"];
             else{
                 globalDefinitions[[param['name']]] = eval('('+param['defaultValue'].join('')+')');
+                console.log(`Saved function for ${param['name']} as ${JSON.stringify(globalDefinitions[param['name']])}`);
             }
         }
         catch(e){
@@ -103,12 +104,13 @@ async function executeScript(req, res) {
         await new Promise((resolve) => {
             setTimeout(async () => {
                 requestWrapper.body = task['reqBody'];
-                
+                if(task['type'] == 'type' || task['type'] == 'click')requestWrapper.params = globalDefinitions;
                 try {
                     await getCoreFunction(task['type'])(requestWrapper, responseWrapper);
-                    // console.log("response after order =", task.order, " response body is ", responseWrapper.content);
                     globalDefinitions.prev = responseWrapper.content[responseWrapper.content.length -1];
-                    console.log(`After order = ${task.order}, prev = ${globalDefinitions.prev}, globalDefs.balance = ${globalDefinitions.count}`);
+                    console.log(`After order = ${task.order}, globalDefs = ${globalDefinitions}, response = ${JSON.stringify(responseWrapper)}`);
+                    console.log("-------------------------------------------------")
+                    console.log("-------------------------------------------------")
                     resolve();
                 } catch (e) {
                     console.log("COULD NOT PROCEED DUE TO -> ", e, "for order =", task.order);
@@ -117,8 +119,7 @@ async function executeScript(req, res) {
             }, task['delayBeforeNextExecution']);
         });
     }
-
-    res.send({"responses": responseWrapper.content});
+    await res.send({"responses": responseWrapper.content});
 }
 
 const invokeFun = (req, res) => {
@@ -130,13 +131,12 @@ const invokeFun = (req, res) => {
             else return item;
         });
         globalDefinitions.prev = globalDefinitions[funName].call(null,...params);
-        console.log("GlobalDef count = ", globalDefinitions.count);
         res.status(200);
         res.send({"msg":`Function: ${funName} is successfully executed with params ${params.join(' ')} and has returned ${globalDefinitions.prev}`})
     }
     else{
         res.status(404);
-        res.send({"msg":"NO FUNCTION IS FOUND WITH THIS NAME", "code":"NOT FOUND: 404"})
+        res.send({"msg":`NO FUNCTION IS FOUND WITH THIS NAME -> ${req.body.name}`, "code":"NOT FOUND: 404"})
     }
 }
 
@@ -160,6 +160,7 @@ const loopExecuter = async (req,res) =>{
     if(req.body.stoppingCondition 
         && globalDefinitions.hasOwnProperty(req.body.stoppingCondition)){
             let stoppingCondition = globalDefinitions[req.body.stoppingCondition];
+            //TODO-> bug: fix for not executing it for stoppingCondition[type] = param
             const requestWrapper = createRequestWrapper();
             const responseWrapper = createResponseWrapper();
             while(!stoppingCondition()){
