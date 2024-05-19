@@ -159,7 +159,33 @@ let currPage;
   const {selector, data} = req.body;
   try{
     if(data.includes("globalDefinitions")){
-      await currPage.type(selector,req.params[data.replace("globalDefinitions.","")])
+      const globalKey = data.replace("globalDefinitions.", "");
+      const globalValue = req.params[globalKey];
+      await currPage.type(selector, globalValue);
+    }
+    else if(data.includes("keyboard.")){
+      const keySequence = data.replace("keyboard.", "");
+      if(keySequence=='Frontspace'){
+        await currPage.focus(selector);
+        await currPage.keyboard.down('Shift');
+        await currPage.keyboard.press('End');
+        await currPage.keyboard.up('Shift');
+        await currPage.keyboard.press('Delete');
+      }
+      else if(keySequence == 'Backspace'){
+        const inputElement = await currPage.$(`input[id="${selector.slice(1)}"]`);
+        await inputElement.click();
+        await currPage.focus(selector);
+        await currPage.keyboard.down('Control');
+        await currPage.keyboard.press('A');
+        await currPage.keyboard.up('Control');
+        await currPage.keyboard.press('Backspace');
+      }
+      else{
+        await currPage.focus(selector);
+        await currPage.keyboard.press(keySequence);
+      }
+      
     }
     else await currPage.type(selector,data);
     res.send(data);

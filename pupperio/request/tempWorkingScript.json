@@ -1,0 +1,681 @@
+{
+    "uid": "anyDemoUID0007",
+    "timeOfInvocation": "Sat Mar 02 2024 12:28:57 GMT+0530",
+    "globalDefinitions": [
+        {
+            "name": "test",
+            "type": "save-script",
+            "defaultValue": {
+                "train": [
+                    {
+                        "order": 0,
+                        "type": "loop",
+                        "requstType": "POST",
+                        "delayBeforeNextExecution": 2000,
+                        "reqParams": {},
+                        "reqBody": {
+                            "stoppingCondition": "balanceLessThanHundred",
+                            "train": [
+                                {
+                                    "order": 1,
+                                    "type": "loop",
+                                    "delayBeforeNextExecution": 2000,
+                                    "reqBody": {
+                                        "stoppingCondition": "lossGreaterThan100",
+                                        "train": [
+                                            {
+                                                "order": 1,
+                                                "type": "invoke-fun",
+                                                "delayBeforeNextExecution": 2000,
+                                                "reqBody": {
+                                                    "name": "finalPrediction",
+                                                    "params": []
+                                                }
+                                            },
+                                            {
+                                                "order": 2,
+                                                "type": "invoke-fun",
+                                                "delayBeforeNextExecution": 2000,
+                                                "reqBody": {
+                                                    "name": "setCurrentSelection",
+                                                    "params": []
+                                                }
+                                            },
+                                            {
+                                                "order": 3,
+                                                "type": "loop",
+                                                "delayBeforeNextExecution": 2000,
+                                                "reqBody": {
+                                                    "stoppingCondition": "waitingForBetTime",
+                                                    "train": [
+                                                        {
+                                                            "order": 1,
+                                                            "type": "cheerio-scrape",
+                                                            "delayBeforeNextExecution": 2000,
+                                                            "reqBody": {
+                                                                "selector": "#app > div.WinTrx__C > div.TimeLeft__C > div.TimeLeft__C-l2 > div.TimeLeft__C-time > div",
+                                                                "type": "list"
+                                                            }
+                                                        },
+                                                        {
+                                                            "order": 2,
+                                                            "type": "invoke-fun",
+                                                            "delayBeforeNextExecution": 2000,
+                                                            "reqBody": {
+                                                                "name": "setTimer",
+                                                                "params": []
+                                                            }
+                                                        }
+                                                    ]
+                                                }
+                                            },
+                                            {
+                                                "order": 4,
+                                                "type": "click",
+                                                "delayBeforeNextExecution": 2000,
+                                                "reqBody": {
+                                                    "selector": "globalDefinitions.currentSelection"
+                                                }
+                                            },
+                                            {
+                                                "order": 5,
+                                                "type": "type",
+                                                "delayBeforeNextExecution": 2000,
+                                                "reqBody": {
+                                                    "selector": "#van-field-1-input",
+                                                    "data": "globalDefinitions.ledger.amnt"
+                                                }
+                                            },
+                                            {
+                                                "order": 6,
+                                                "type": "click",
+                                                "delayBeforeNextExecution": 2000,
+                                                "reqBody": {
+                                                    "selector": "#app > div.WinTrx__C > div.Betting__C > div.van-popup.van-popup--round.van-popup--bottom > div > div.Betting__Popup-foot > div.Betting__Popup-foot-s.bgcolor"
+                                                }
+                                            },
+                                            {
+                                                "order": 7,
+                                                "type": "loop",
+                                                "delayBeforeNextExecution": 200,
+                                                "reqBody": {
+                                                    "stoppingCondition": "waitingForResTime",
+                                                    "train": [
+                                                        {
+                                                            "order": 1,
+                                                            "type": "cheerio-scrape",
+                                                            "delayBeforeNextExecution": 200,
+                                                            "reqBody": {
+                                                                "selector": "#app > div.WinTrx__C > div.TimeLeft__C > div.TimeLeft__C-l2 > div.TimeLeft__C-time > span",
+                                                                "type": "list"
+                                                            }
+                                                        },
+                                                        {
+                                                            "order": 2,
+                                                            "type": "invoke-fun",
+                                                            "delayBeforeNextExecution": 200,
+                                                            "reqBody": {
+                                                                "name": "setTimer",
+                                                                "params": [
+                                                                    "prev"
+                                                                ]
+                                                            }
+                                                        }
+                                                    ]
+                                                }
+                                            },
+                                            {
+                                                "order": 8,
+                                                "type": "invoke-fun",
+                                                "delayBeforeNextExecution": 2000,
+                                                "reqBody": {
+                                                    "name": "setTimerNull",
+                                                    "params":[]
+                                                }
+                                            },
+                                            {
+                                                "order": 9,
+                                                "type": "cheerio-scrape",
+                                                "delayBeforeNextExecution": 2000,
+                                                "reqBody": {
+                                                    "selector": "#app > div.WinTrx__C > div.Wallet__C > div > div.Wallet__C-balance-l1 > div",
+                                                    "type": "text"
+                                                }
+                                            },
+                                            {
+                                                "order": 10,
+                                                "type": "invoke-fun",
+                                                "delayBeforeNextExecution": 2000,
+                                                "reqBody": {
+                                                    "name": "setBalance",
+                                                    "params": []
+                                                }
+                                            },
+                                            {
+                                                "order": 11,
+                                                "type": "cheerio-scrape",
+                                                "delayBeforeNextExecution": 2000,
+                                                "reqBody": {
+                                                    "selector": "#app > div.WinTrx__C > div.GameRecord__C > div.GameRecord__C-body > div> div:nth-child(5) > div.numberC > div:nth-child(2)",
+                                                    "type": "list"
+                                                }
+                                            },
+                                            {
+                                                "order": 12,
+                                                "type": "invoke-fun",
+                                                "delayBeforeNextExecution": 2000,
+                                                "reqBody": {
+                                                    "name": "updateObservation",
+                                                    "params": []
+                                                }
+                                            },
+                                            {
+                                                "order": 8,
+                                                "type": "invoke-fun",
+                                                "delayBeforeNextExecution": 2000,
+                                                "reqBody": {
+                                                    "name": "play",
+                                                    "params": []
+                                                }
+                                            },
+                                            {
+                                                "order": 9,
+                                                "type": "invoke-fun",
+                                                "delayBeforeNextExecution": 2000,
+                                                "reqBody": {
+                                                    "name": "setMessage",
+                                                    "params": []
+                                                }
+                                            }
+                                        ]
+                                    }
+                                },
+                                {
+                                    "order": 2,
+                                    "type": "invoke-fun",
+                                    "delayBeforeNextExecution": 2000,
+                                    "reqBody": {
+                                        "name": "refreshLedger",
+                                        "params": []
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "name": "observations",
+            "type": "param",
+            "defaultValue": []
+        },
+        {
+            "name": "report",
+            "type": "param",
+            "defaultValue": "Initial Report Text"
+        },
+        {
+            "name": "message",
+            "type": "param",
+            "defaultValue": "Initial Message"
+        },
+        {
+            "name": "currentSelection",
+            "type": "param",
+            "defaultValue": ""
+        },
+        {
+            "name": "ledger",
+            "type": "param",
+            "defaultValue": {
+                "count": 0,
+                "balance": 100.00,
+                "loss": 0.0,
+                "amnt": 1.0,
+                "denominations": 1.0,
+                "minBal": 1000000000000.0,
+                "maxBal": 0.0
+            }
+        },
+        {
+            "name": "setReport",
+            "type": "function",
+            "defaultValue": [
+                "function(){",
+                "    globalDefinitions.report = globalDefinitions.report + globalDefinitions.prev;",
+                "    console.log(\"REPORT -> \", globalDefinitions.report);",
+                "}"
+            ]
+        },
+        {
+            "name": "refreshLedger",
+            "type": "function",
+            "defaultValue": [
+                "function(){",
+                "    globalDefinitions.ledger = {",
+                "                \"count\": 0,",
+                "                \"balance\": 100.00,",
+                "                \"loss\": 0.0,",
+                "                \"amnt\": 1.0,",
+                "                \"denominations\": 1.0,",
+                "                \"minBal\": 1000000000000.0,",
+                "                \"maxBal\": 0.0",
+                "            };",
+                "    console.log(\"REFRESHED LEDGER FUNCTION DONE!!!\")",
+                "}"
+            ]
+        },
+        {
+            "name": "balanceLessThanHundred",
+            "type": "function",
+            "defaultValue": [
+                "function(){",
+                "    return parseFloat(globalDefinitions.ledger.balance) > 100.00;",
+                "}"
+            ]
+        },
+        {
+            "name": "updateObservation",
+            "type": "function",
+            "defaultValue": [
+                "function(newVal) {",
+                "    globalDefinitions.observations = globalDefinitions.prev;",
+                "    console.log(\"OBSERVATION IS -> \", globalDefinitions.observations);",
+                "}"
+            ]
+        },
+        {
+            "name": "setBalance",
+            "type": "function",
+            "defaultValue": [
+                "function(){ globalDefinitions.ledger.balance = parseFloat(globalDefinitions.prev.substring(1)); }"
+            ]
+        },
+        {
+            "name": "play",
+            "type": "function",
+            "defaultValue": [
+                "function (predictedVal){",
+                "    globalDefinitions.ledger.count+=1;",
+                "    if(predictedVal == globalDefinitions.observations[0]){",
+                "        globalDefinitions.ledger.balance += parseFloat(Math.round(globalDefinitions.ledger.amnt)*1.92);",
+                "        globalDefinitions.ledger.loss = 0.00;",
+                "        globalDefinitions.ledger.amnt = parseFloat(globalDefinitions.ledger.denominations);",
+                "        ",
+                "    }",
+                "    else{",
+                "        globalDefinitions.ledger.balance -= parseFloat(Math.round(globalDefinitions.ledger.amnt));",
+                "        globalDefinitions.ledger.loss += parseFloat(Math.round(globalDefinitions.ledger.amnt));",
+                "        globalDefinitions.ledger.amnt = (globalDefinitions.ledger.count ==  1) ? parseFloat(globalDefinitions.ledger.denominations * 1.92): parseFloat(globalDefinitions.ledger.amnt * 1.92);",
+                "    }",
+                "}"
+            ]
+        },
+        {
+            "name": "finalPrediction",
+            "type": "function",
+            "defaultValue": [
+                "function() {",
+                "    let observations = globalDefinitions.observations;",
+                "    let res = {'B': '#app > div.WinTrx__C > div.Betting__C > div.Betting__C-foot > div.Betting__C-foot-b', 'S': '#app > div.WinTrx__C > div.Betting__C > div.Betting__C-foot > div.Betting__C-foot-s'};",
+                "    let same = 1;",
+                "    let diff = 0;",
+                "    ",
+                "    for (let i = 0; i < observations.length - 1; i++) {",
+                "        if (observations[i] == observations[i + 1]) {",
+                "            while (i < observations.length - 1 && observations[i] == observations[i + 1]) {",
+                "                i++;",
+                "                same++;",
+                "            }",
+                "            break;",
+                "        } else {",
+                "            while (i < observations.length - 1 && observations[i] != observations[i + 1]) {",
+                "                i++;",
+                "                diff++;",
+                "            }",
+                "            break;",
+                "        }",
+                "    }",
+                "    ",
+                "    if (same > 3) {",
+                "        return res[globalDefinitions.opposite(observations[0])];",
+                "    }",
+                "    if (diff >= 3 && diff < 6) {",
+                "        return [globalDefinitions.opposite(observations[0])];",
+                "    }",
+                "    if (diff >= 6) {",
+                "        return res[observations[0]];",
+                "    }",
+                "    ",
+                "    return res[['B', 'S'][Math.round(Math.random())]];",
+                "}"
+            ]
+        },
+        {
+            "name": "opposite",
+            "type": "function",
+            "defaultValue": [
+                "function(val){",
+                "    if(val == 'B') return 'S';",
+                "    else return 'B';",
+                "}"
+            ]
+        },
+        {
+            "name": "lossGreaterThan100",
+            "type": "function",
+            "defaultValue": [
+                "function(){",
+                "    return parseFloat(globalDefinitions.ledger.loss) > 100.00;",
+                "}"
+            ]
+        },
+        {
+            "name": "fakesimulate",
+            "type": "function",
+            "defaultValue": [
+                "function(){",
+                "    for(let i=0; i<5;i++){",
+                "        let predictedVal = globalDefinitions.finalPrediction(); ",
+                "        let actualVal = ['B','S'][Math.round(Math.random())];",
+                "        globalDefinitions.updateObservation(actualVal);",
+                "        globalDefinitions.play(predictedVal);",
+                "    }",
+                "}"
+            ]
+        },
+        {
+            "name": "setCurrentSelection",
+            "type": "function",
+            "defaultValue": [
+                "function(){",
+                " globalDefinitions.currentSelection = globalDefinitions.prev ;",
+                "console.log(\"Current Selection is \", globalDefinitions.currentSelection);",
+                "}"
+            ]
+        },
+        {
+            "name":"currentTimer",
+            "type":"param",
+            "defaultValue":null
+        },
+        {
+            "name":"setTimer",
+            "type":"function",
+            "defaultValue":[
+                "function() {",
+                "let arr = globalDefinitions.prev;",
+                "globalDefinitions.currentTimer = parseInt(arr[3]+arr[4]);",
+                "console.log(\" Timer is -> \",globalDefinitions.currentTimer)",
+                "}"
+            ]
+        },
+        {
+            "name":"setTimerNull",
+            "type":"function",
+            "defaultValue":[
+                "function() {",
+                "globalDefinitions.currentTimer = null;",
+                "}"
+            ]
+        },
+        {
+            "name": "waitingForBetTime",
+            "type": "function",
+            "defaultValue": [
+                "function(){",
+                "    let currentTimer = globalDefinitions.currentTimer;",
+                "    if(currentTimer == null) return false;",
+                "    else if(currentTimer >=30) return true;",
+                "    else return false;",
+                "}"
+            ]
+        }
+    ],
+    "train": [
+        {
+            "order": 1,
+            "type": "init",
+            "requestType": "GET",
+            "delayBeforeNextExecution": 2000,
+            "reqParams": {},
+            "reqBody": {}
+        },
+        {
+            "order": 2,
+            "type": "new-tab",
+            "requestType": "GET",
+            "delayBeforeNextExecution": 2000,
+            "reqParams": {},
+            "reqBody": {}
+        },
+        {
+            "order": 3,
+            "type": "new-tab",
+            "requestType": "GET",
+            "delayBeforeNextExecution": 2000,
+            "reqParams": {},
+            "reqBody": {}
+        },
+        {
+            "order": 4,
+            "type": "goto",
+            "requestType": "POST",
+            "delayBeforeNextExecution": 2000,
+            "reqParams": {},
+            "reqBody": {
+                "timeout": 60000,
+                "link": "https://quicknote.io/f4814bb0-e1f7-11ee-abcb-9b4274a828b9",
+                "retries": 3,
+                "waitForSelector": ".Notes"
+            }
+        },
+        {
+            "order": 5,
+            "type": "switch-tab",
+            "requestType": "GET",
+            "delayBeforeNextExecution": 2000,
+            "reqParams": {},
+            "reqBody": {
+                "tabIndex": 1
+            }
+        },
+        {
+            "order": 6,
+            "type": "goto",
+            "requestType": "POST",
+            "delayBeforeNextExecution": 2000,
+            "reqParams": {},
+            "reqBody": {
+                "timeout": 60000,
+                "link": "https://9987up.club/#/",
+                "retries": 3,
+                "waitForSelector": ".lottery_bg"
+            }
+        },
+        {
+            "order": 7,
+            "type": "click",
+            "requestType": "POST",
+            "delayBeforeNextExecution": 2000,
+            "reqParams": {},
+            "reqBody": {
+                "selector": "#app > div.content_home > div.home_container > div.lottery_container > div:nth-child(7) > div.lottery > img.lottery_bg"
+            }
+        },
+        {
+            "order": 8,
+            "type": "click",
+            "requestType": "POST",
+            "delayBeforeNextExecution": 2000,
+            "reqParams": {},
+            "reqBody": {
+                "selector": "#app > div.login__container > div.navbar > div > div > div.navbar__content-right > div > div"
+            }
+        },
+        {
+            "order": 9,
+            "type": "click",
+            "requestType": "POST",
+            "delayBeforeNextExecution": 2000,
+            "reqParams": {},
+            "reqBody": {
+                "selector": "body > div.van-popup.van-popup--bottom.popup > div > div:nth-child(1)"
+            }
+        },
+        {
+            "order": 10,
+            "type": "type",
+            "requestType": "POST",
+            "delayBeforeNextExecution": 2000,
+            "reqParams": {},
+            "reqBody": {
+                "selector": "#app > div.login__container > div.login__container-form > div.tab-content.activecontent > div > div.phoneInput__container > div.phoneInput__container-input > input[type=text]",
+                "data": "8619975293"
+            }
+        },
+        {
+            "order": 11,
+            "type": "type",
+            "requestType": "POST",
+            "delayBeforeNextExecution": 2000,
+            "reqParams": {},
+            "reqBody": {
+                "selector": "#app > div.login__container > div.login__container-form > div.tab-content.activecontent > div > div.passwordInput__container > div.passwordInput__container-input > input[type=password]",
+                "data": "madharchod6969"
+            }
+        },
+        {
+            "order": 12,
+            "type": "click",
+            "requestType": "POST",
+            "delayBeforeNextExecution": 2000,
+            "reqParams": {},
+            "reqBody": {
+                "selector": "#app > div.login__container > div.login__container-form > div.tab-content.activecontent > div > div:nth-child(3) > div > span"
+            }
+        },
+        {
+            "order": 13,
+            "type": "click",
+            "requestType": "POST",
+            "delayBeforeNextExecution": 2000,
+            "reqParams": {},
+            "reqBody": {
+                "selector": "#app > div.login__container > div.login__container-form > div.tab-content.activecontent > div > div.signIn__container-button > button:nth-child(1)"
+            }
+        },
+        {
+            "order": 14,
+            "type": "click",
+            "requestType": "POST",
+            "delayBeforeNextExecution": 2000,
+            "reqParams": {},
+            "reqBody": {
+                "selector": "#app > div.content_home > div.van-popup.van-popup--center.van-dialog > div.van-hairline--top.van-dialog__footer > button > div > span"
+            }
+        },
+        {
+            "order": 15,
+            "type": "click",
+            "requestType": "POST",
+            "delayBeforeNextExecution": 2000,
+            "reqParams": {},
+            "reqBody": {
+                "selector": "#app > div.content_home > div.home_container > div.lottery_container > div:nth-child(7) > div.lottery > img.lottery_bg"
+            }
+        },
+        {
+            "order": 16,
+            "type": "cheerio-scrape",
+            "delayBeforeNextExecution": 2000,
+            "reqBody": {
+                "selector": "#app > div.WinTrx__C > div.Wallet__C > div > div.Wallet__C-balance-l1 > div",
+                "type": "text"
+            }
+        },
+        {
+            "order": 17,
+            "type": "invoke-fun",
+            "delayBeforeNextExecution": 2000,
+            "reqBody": {
+                "name": "setBalance",
+                "params": []
+            }
+        },
+        {
+            "order": 18,
+            "type": "cheerio-scrape",
+            "delayBeforeNextExecution": 2000,
+            "reqBody": {
+                "selector": "#app > div.WinTrx__C > div.GameRecord__C > div.GameRecord__C-body > div> div:nth-child(5) > div.numberC > div:nth-child(2)",
+                "type": "list"
+            }
+        },
+        {
+            "order": 19,
+            "type": "invoke-fun",
+            "delayBeforeNextExecution": 2000,
+            "reqBody": {
+                "name": "updateObservation",
+                "params": []
+            }
+        },
+        {
+            "order": 20,
+            "type": "execute-script",
+            "delayBeforeNextExecution": 2000,
+            "reqBody": {
+                "name": "test"
+            }
+        },
+        {
+            "order": 21,
+            "type": "switch-tab",
+            "requstType": "GET",
+            "delayBeforeNextExecution": 2000,
+            "reqParams": {},
+            "reqBody": {
+                "tabIndex": 2
+            }
+        },
+        {
+            "order": 22,
+            "type": "click",
+            "requstType": "POST",
+            "delayBeforeNextExecution": 2000,
+            "reqParams": {},
+            "reqBody": {
+                "selector": "#root > div > div.Notes > div.buttons > div.secondary-links-container > a.action.edit_note.hint"
+            }
+        },
+        {
+            "order": 23,
+            "type": "cheerio-scrape",
+            "delayBeforeNextExecution": 2000,
+            "reqBody": {
+                "selector": "#editor-T1710418575442 > div",
+                "type": "text"
+            }
+        },
+        {
+            "order": 24,
+            "type": "invoke-fun",
+            "delayBeforeNextExecution": 2000,
+            "reqBody": {
+                "name": "setReport",
+                "params": []
+            }
+        },
+        {
+            "order": 25,
+            "type": "type",
+            "delayBeforeNextExecution": 2000,
+            "reqBody": {
+                "selector": "#editor-T1710418575442 > div",
+                "data": "globalDefinitions.report"
+            }
+        }
+    ]
+}

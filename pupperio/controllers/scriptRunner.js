@@ -67,6 +67,8 @@ const getCoreFunction = (cmd)=>{
             return fetchParam;
         case 'loop':
             return loopExecuter;
+        case 'execute-script':
+            return executeScript;
         default:
             return function(req,res){
                 res.send("NO VALID CORE BROWSER FUNCTION AVAILABLE");
@@ -79,6 +81,7 @@ const initiateGlobalDefinitions = (req,res)=>{
     for(const param of params){
         try{
             if(param['type'] == 'param')globalDefinitions[[param["name"]]] = param["defaultValue"];
+            else if(param['type'] == 'save-script') globalDefinitions[[param["name"]]] = param["defaultValue"];
             else{
                 globalDefinitions[[param['name']]] = eval('('+param['defaultValue'].join('')+')');
                 console.log(`Saved function for ${param['name']} as ${JSON.stringify(globalDefinitions[param['name']])}`);
@@ -105,14 +108,16 @@ async function executeScript(req, res) {
             setTimeout(async () => {
                 requestWrapper.body = task['reqBody'];
                 if(task['type'] == 'type' || task['type'] == 'click')requestWrapper.params = globalDefinitions;
+                if(task['type'] == 'execute-script')requestWrapper.body = globalDefinitions[requestWrapper.body.name];
                 try {
                     await getCoreFunction(task['type'])(requestWrapper, responseWrapper);
                     globalDefinitions.prev = responseWrapper.content[responseWrapper.content.length -1];
-                    console.log(`After order = ${task.order}, globalDefs = ${globalDefinitions}, response = ${JSON.stringify(responseWrapper)}`);
-                    console.log("-------------------------------------------------")
-                    console.log("-------------------------------------------------")
+                    // console.log(`After order = ${task.order}, globalDefs = ${globalDefinitions}, response = ${JSON.stringify(responseWrapper)}`);
+                    // console.log("-------------------------------------------------")
+                    // console.log("-------------------------------------------------")
                     resolve();
                 } catch (e) {
+                    console.log("REQUEST IS -> ", req.body);
                     console.log("COULD NOT PROCEED DUE TO -> ", e, "for order =", task.order);
                     resolve();
                 }

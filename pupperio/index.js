@@ -76,6 +76,13 @@ app.post("/api/loop",(req,res)=>{
   scriptRunner.loopExecuter(req,res);
 })
 
+app.post("/api/testing",(req,res)=>{
+  console.log("REQUEST IS ", req.body);
+  res.send({
+    "msg":"DONE"
+  });
+})
+
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`);
 });
