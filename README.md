@@ -108,7 +108,7 @@ This project is a high-performance web scraping and automation framework built u
   - **Method**: `GET`
   - **Description**: Closes the browser instance.
 
-### Containerization and Deployment
+### Containerization
 
 1. **Build Docker Image**:
     ```bash
@@ -119,9 +119,6 @@ This project is a high-performance web scraping and automation framework built u
     ```bash
     docker run -p 3000:3000 your-image-name
     ```
-
-3. **Deploy to Render**:
-   - Follow the [Render deployment guide](https://render.com/docs/deploy-node-express-app) to deploy your Docker container.
 
 ## Contributing
 
