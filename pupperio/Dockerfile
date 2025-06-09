@@ -1,3 +1,4 @@
+FROM node:18
 FROM ghcr.io/puppeteer/puppeteer:22.3.0
 
 ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true \
