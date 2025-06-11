@@ -1,0 +1,9 @@
+GOTO https://chatgpt.com
+WAITFOR 2000
+NEWTAB
+GOTO https://tempmailo.com/
+CHEERIO_SCRAPE body html
+CHEERIO_SCRAPE #i-email attribute value
+SET_LAST_RES_AS COPIED_EMAIL
+SWITCHTAB 0
+TYPE 

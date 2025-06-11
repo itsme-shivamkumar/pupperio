@@ -1,7 +1,7 @@
 import bodyParser from 'body-parser';
 import express from 'express';
-import {coreBrowserFunctions} from './controllers/coreBrowserFunctions.js'
-import {scriptRunner} from './controllers/scriptRunner.js';
+import {coreBrowserFunctions} from './utils/coreBrowserFunctionsFromAPI.js'
+import {scriptRunner} from './utils/scriptRunner.js';
 import dotenv from 'dotenv';
 dotenv.config();
 

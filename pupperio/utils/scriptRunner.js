@@ -1,4 +1,4 @@
-import { coreBrowserFunctions } from "./coreBrowserFunctions.js";
+import { coreBrowserFunctions } from "./coreBrowserFunctionsFromAPI.js";
 
 class RequestWrapper {
     constructor() {
@@ -160,8 +160,6 @@ const fetchParam = async(req, res) => {
 }
 
 const loopExecuter = async (req,res) =>{
-    const requestWrapper = createRequestWrapper();
-    const responseWrapper = createResponseWrapper();
     if(req.body.stoppingCondition 
         && globalDefinitions.hasOwnProperty(req.body.stoppingCondition)){
             let stoppingCondition = globalDefinitions[req.body.stoppingCondition];

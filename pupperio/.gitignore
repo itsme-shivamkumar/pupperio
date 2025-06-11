@@ -6,4 +6,5 @@ node_modules
 #tokens
 token.txt
 
-#enviorment
+#env
+.env

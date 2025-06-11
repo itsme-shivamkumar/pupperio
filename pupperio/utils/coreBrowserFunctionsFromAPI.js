@@ -18,7 +18,7 @@ let currPage;
         '--no-zygote',    
     ],
       defaultViewport: null,
-      executablePath: process.env.NODE_ENV === "production"
+      executablePath: process.env.PROFILE === "prod"
       ? process.env.PUPPETEER_EXECUTABLE_PATH
       : puppeteer.executablePath()
     });
