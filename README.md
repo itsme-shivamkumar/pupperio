@@ -120,6 +120,9 @@ This project is a high-performance web scraping and automation framework built u
     docker run -p 3000:3000 your-image-name
     ```
 
+## Demo Video ( Additional Automation with AI ChatGpt interacting with Browser on its own )
+[Watch Demo on Youtube](https://youtube.com/watch/WqRJysCkvbs)
+
 ## Contributing
 
 Contributions are welcome! Please submit a pull request or open an issue to discuss any changes.
